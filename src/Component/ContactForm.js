@@ -33,50 +33,55 @@ const ContactForm = () => {
     e.preventDefault();
 
     // Validate form fields
-    const errors = {};
+    const newerrors = {};
     if (!firstName.trim()) {
-      errors.firstName = 'First Name is required';
+      newerrors.firstName = 'First Name is required';
     }else if (!validateName(firstName)) {
-        errors.firstName = 'Invalid first name format';
+      newerrors.firstName = 'Invalid first name format';
     }
     if (!lastName.trim()) {
-      errors.lastName = 'Last Name is required';
+      newerrors.lastName = 'Last Name is required';
     }else if (!validateName(lastName)) {
-        errors.lastName = 'Invalid last name format';
+      newerrors.lastName = 'Invalid last name format';
     }
     if (!email.trim()) {
-      errors.email = 'Email is required';
+      newerrors.email = 'Email is required';
     } else if (!validateEmail(email)) {
-      errors.email = 'Invalid email format';
+      newerrors.email = 'Invalid email format';
     }
     if (!phone.trim()) {
-      errors.phone = 'Phone Number is required';
+      newerrors.phone = 'Phone Number is required';
     } else if (!validatePhone(phone)) {
-      errors.phone = 'Invalid phone number format';
+      newerrors.phone = 'Invalid phone number format';
     }
-    setErrors(errors)
-    if (Object.keys(errors).length === 0) {
-      console.log("FOrm Submitted")
+    
+    if (Object.keys(newerrors).length === 0) {
+      // Form is valid, do something with the data
+      console.log('Form Submitted');
+      console.log('First Name:', firstName);
+      console.log('Last Name:', lastName);
+      console.log('Email:', email);
+      console.log('Phone Number:', phone);
+
+      // Reset form fields and errors
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPhone('');
+      setErrors({});
+    } else {
+      // Set the validation errors
+      setErrors(newerrors);
     }
+    
 
-    // Submit the form
-    console.log('First Name:', firstName);
-    console.log('Last Name:', lastName);
-    console.log('Email:', email);
-    console.log('Phone Number:', phone);
-
-    // Reset the form fields
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setPhone('');
-    setErrors({});
+    
   };
 
   return (
    
-    <Container maxWidth="sm" spacing ={2} justifyContent = "center">
-      <h1 justifyContent = 'center'> Contact Form </h1>
+    <Container maxWidth="sm" spacing ={2} justifycontent = "center">
+      <h1 justifycontent = "center"> Contact Form </h1>
       <form  margin ="dense"  onSubmit={handleSubmit}>
        <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
