@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
+
 const ContactForm = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -21,6 +22,13 @@ const ContactForm = () => {
     return regex.test(phone);
   };
 
+  const validateName = (name) => {
+    const regex = /^[a-zA-Z]+$/;
+    return regex.test(name);
+  };
+
+  
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -28,9 +36,13 @@ const ContactForm = () => {
     const errors = {};
     if (!firstName.trim()) {
       errors.firstName = 'First Name is required';
+    }else if (!validateName(firstName)) {
+        errors.firstName = 'Invalid first name format';
     }
     if (!lastName.trim()) {
       errors.lastName = 'Last Name is required';
+    }else if (!validateName(lastName)) {
+        errors.lastName = 'Invalid last name format';
     }
     if (!email.trim()) {
       errors.email = 'Email is required';
@@ -42,10 +54,9 @@ const ContactForm = () => {
     } else if (!validatePhone(phone)) {
       errors.phone = 'Invalid phone number format';
     }
-
-    if (Object.keys(errors).length > 0) {
-      setErrors(errors);
-      return;
+    setErrors(errors)
+    if (Object.keys(errors).length === 0) {
+      console.log("FOrm Submitted")
     }
 
     // Submit the form
@@ -79,7 +90,7 @@ const ContactForm = () => {
             helperText={errors.firstName}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} onSubmit ={handleSubmit}>
           <TextField
             label="Last Name"
             value={lastName}
@@ -88,6 +99,7 @@ const ContactForm = () => {
             fullWidth
             error={!!errors.lastName}
             helperText={errors.lastName}
+            
           />
         </Grid>
         <Grid item xs={12}>
@@ -99,7 +111,8 @@ const ContactForm = () => {
             required
             fullWidth
             error={!!errors.email}
-            helperText={errors.email}
+            helperText = {errors.email || ' '}
+            
           />
         </Grid>
         <Grid item xs={12}>
@@ -110,8 +123,8 @@ const ContactForm = () => {
             required
             fullWidth
             error={!!errors.phone}
-            helperText={errors.phone}
-          />
+            helperText = {errors.phone}
+         />
         </Grid>
         <Grid item xs={12}>
           <Button type="submit" variant="contained" color="primary">
