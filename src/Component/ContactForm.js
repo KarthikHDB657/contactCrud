@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import {useNavigate}  from 'react-router-dom';
+import { ContactContext } from '../Context/ContactContext';
+
 
 
 const ContactForm = () => {
+  const { addContact } = useContext(ContactContext);
+  const history = useNavigate();
+
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -31,7 +38,7 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    
     // Validate form fields
     const newerrors = {};
     if (!firstName.trim()) {
@@ -57,6 +64,14 @@ const ContactForm = () => {
     
     if (Object.keys(newerrors).length === 0) {
       // Form is valid, do something with the data
+       const newContact = {
+         firstName,
+        lastName,
+        email,
+         phone,
+       };
+      // Add the new contact
+      addContact(newContact);
       console.log('Form Submitted');
       console.log('First Name:', firstName);
       console.log('Last Name:', lastName);
@@ -69,21 +84,22 @@ const ContactForm = () => {
       setEmail('');
       setPhone('');
       setErrors({});
+      history('/contactList');
     } else {
       // Set the validation errors
       setErrors(newerrors);
     }
     
-
+  
     
   };
 
   return (
-   
+    
     <Container maxWidth="sm" spacing ={2} justifycontent = "center">
-      <h1 justifycontent = "center"> Contact Form </h1>
-      <form  margin ="dense"  onSubmit={handleSubmit}>
-       <Grid container spacing={2}>
+      {/* <h1 justifycontent = "center"> Contact Form </h1> */}
+      <form onSubmit={handleSubmit}>
+       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
             label="First Name"
@@ -139,6 +155,7 @@ const ContactForm = () => {
       </Grid>
      </form>
     </Container>
+  
 
 );
 

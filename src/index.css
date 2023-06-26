@@ -16,7 +16,7 @@ nav {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  background-color: #333;
+  background-color: black;
   color: white;
   padding: 16px 32px;
 }
@@ -29,4 +29,8 @@ nav a {
 
 nav a:hover {
   color: lightgray;
+}
+
+form {
+  margin-top: 20px;
 }
