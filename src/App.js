@@ -12,10 +12,9 @@ function App() {
      <Navbar />
      
      <Routes>
-      <Route path='/' element ={<ContactForm/>}/>
+      <Route exact path='/' component={ContactForm} element ={<ContactForm/>}/>
       <Route path='/contactList' element ={<ContactList/>}/>
-      <Route path = 'contactForm' element = {<ContactForm/>} />
-     </Routes>
+    </Routes>
      </ContactProvider>
     </div>
   );
