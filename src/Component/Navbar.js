@@ -15,7 +15,7 @@ function Navbar() {
           {/* using material ui typography */}
            <Typography component={Link} to="/" variant="button" color = "red">Contact</Typography>
           </Box>
-          <Typography component={Link} to="/contactList" variant="button" color="red"> ContactList</Typography>
+          <Typography component={Link} to="/contactList" variant="button" color="red">ContactList</Typography>
         </nav>
     </div>
   )

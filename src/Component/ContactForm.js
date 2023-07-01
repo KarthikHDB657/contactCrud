@@ -103,7 +103,7 @@ const ContactForm = () => {
   return (
     
     <Container maxWidth="sm" spacing ={2} justifycontent = "center">
-      {/* <h1 justifycontent = "center"> Contact Form </h1> */}
+      
       <form onSubmit={handleSubmit}>
        <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
