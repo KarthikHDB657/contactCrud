@@ -1,4 +1,4 @@
-import React ,{ useContext } from 'react'
+import React ,{ useContext,useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import { ContactContext } from '../Context/ContactContext';
@@ -13,8 +13,11 @@ import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@material-ui/core';
 import EditIcon from '@mui/icons-material/Edit';
+import EditContactForm from './EditContactForm';
+
 
 function ContactList() {
+  const [editingContact, setEditingContact] = useState(null);
   const navigate = useNavigate()
   const { contacts, removeContact} = useContext(ContactContext);
 
@@ -23,8 +26,13 @@ function ContactList() {
     removeContact(contactId);
   };
 
-  //Need to handle Edit function
-  
+  //to handle Edit contact
+  const handleEditContact = (contact) => {
+    setEditingContact(contact);
+  };
+
+ 
+
   
   return (
     <div>
@@ -41,8 +49,8 @@ function ContactList() {
             <TableCell>Last Name</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Phone Number</TableCell>
-            <TableCell>Edit</TableCell>
             <TableCell>Delete</TableCell>
+            <TableCell>Edit</TableCell>
           </TableRow>
        </TableHead>
        <TableBody>
@@ -53,16 +61,25 @@ function ContactList() {
               <TableCell>{contact.email}</TableCell>
               <TableCell>{contact.phone}</TableCell>
               <TableCell>
-                <IconButton aria-label='Edit'><EditIcon/></IconButton>
+               <IconButton aria-label='Delete' onClick={() => handleDeleteContact(contact.id)}><DeleteIcon/></IconButton>
               </TableCell>
               <TableCell>
-               <IconButton aria-label='Delete' onClick={() => handleDeleteContact(contact.id)}><DeleteIcon/></IconButton>
+              <IconButton aria-label='Edit' onClick={() => handleEditContact(contact)}>
+                   <EditIcon />
+              </IconButton>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    {editingContact && (
+      <EditContactForm
+        contact={editingContact}
+        onClose={() => setEditingContact(null)}
+      />
+    )}
+    
 
     </div>
   )

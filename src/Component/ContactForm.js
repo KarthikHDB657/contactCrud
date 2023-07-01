@@ -5,14 +5,18 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import {useNavigate}  from 'react-router-dom';
 import { ContactContext } from '../Context/ContactContext';
+import { v4 as uuidv4 } from 'uuid';
 
 
-
+//Contact form
 const ContactForm = () => {
+  //use context hook to add the contact
   const { addContact } = useContext(ContactContext);
+
+  //use navigate button for routing
   const history = useNavigate();
 
-
+  //Setting states using useEffect
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -65,10 +69,12 @@ const ContactForm = () => {
     if (Object.keys(newerrors).length === 0) {
       // Form is valid, do something with the data
        const newContact = {
-         firstName,
+        //setting unique id to handle delete function
+        id: uuidv4(), // Generate a unique ID
+        firstName,
         lastName,
         email,
-         phone,
+        phone,
        };
       // Add the new contact
       addContact(newContact);

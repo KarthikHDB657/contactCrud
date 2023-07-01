@@ -9,12 +9,11 @@ function App() {
   return (
     <div className="App">
      <ContactProvider>
-     <Navbar />
-     
-     <Routes>
-      <Route exact path='/' component={ContactForm} element ={<ContactForm/>}/>
-      <Route path='/contactList' element ={<ContactList/>}/>
-    </Routes>
+       <Navbar />
+       <Routes>
+         <Route exact path='/' component={ContactForm} element ={<ContactForm/>}/>
+         <Route path='/contactList' element ={<ContactList/>}/>
+       </Routes>
      </ContactProvider>
     </div>
   );

@@ -6,7 +6,7 @@ export const ContactProvider = ({ children }) => {
   const [contacts, setContacts] = useState([]);
 
   const addContact = (newContact) => {
-    setContacts((prevContacts) => [...prevContacts, newContact]);
+    setContacts((prevContacts) => [newContact,...prevContacts]);
   };
 
   const removeContact = (contactId) => {
