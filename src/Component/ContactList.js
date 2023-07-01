@@ -11,16 +11,19 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { IconButton } from '@material-ui/core';
+import { IconButton,Typography } from '@material-ui/core';
 import EditIcon from '@mui/icons-material/Edit';
 import EditDialog from './EditDialog';
 import DeleteContact from './DeleteContact';
+import SearchContact from './SearchContact';
+
 
 function ContactList() {
   const navigate = useNavigate();
   const { contacts, updateContact } = useContext(ContactContext);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editingContact, setEditingContact] = useState(null);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleEditClick = (contact) => {
     setEditingContact(contact);
@@ -36,13 +39,28 @@ function ContactList() {
     setEditDialogOpen(false);
   };
 
+  const handleSearch = (keyword) => {
+    setSearchKeyword(keyword);
+  };
+
+  const filteredContacts = searchKeyword
+    ? contacts.filter((contact) => contact.firstName.toLowerCase() === searchKeyword.toLowerCase())
+    : contacts;
+
   return (
     <div>
       <Box marginTop={4} display="flex" justifyContent={'flex-end'}>
         <Button type="button" variant="contained" color="error" onClick={() => navigate('/')}>
           Create Contact
         </Button>
+        <SearchContact onSearch={handleSearch} />
+      
       </Box>
+
+      {filteredContacts.length === 0 ? (
+        <Typography variant="body1">No users found.</Typography>
+      ) : (
+      
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
@@ -56,7 +74,7 @@ function ContactList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {contacts.map((contact, index) => (
+            {filteredContacts.map((contact, index) => (
               <TableRow key={index} scope="row">
                 <TableCell>{contact.firstName}</TableCell>
                 <TableCell>{contact.lastName}</TableCell>
@@ -78,7 +96,7 @@ function ContactList() {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer>)}
       {editingContact && (
         <EditDialog
           contact={editingContact}
