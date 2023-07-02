@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dialog, DialogTitle,DialogContentText, DialogContent, DialogActions, Button } from '@material-ui/core';
 
+//Delete dialog button handling
 const DeleteDialog = ({ open, onCancel, onConfirm }) => {
   return (
     <Dialog open={open} onClose={onCancel}>

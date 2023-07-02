@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField,Grid } from '@material-ui/core';
 
+//Edit Dialog function
 const EditDialog = ({ contact, onUpdate, onCancel, open }) => {
   const [editedContact, setEditedContact] = useState(contact);
   const [errors, setErrors] = useState({});

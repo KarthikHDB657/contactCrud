@@ -25,6 +25,7 @@ function ContactList() {
   const [editingContact, setEditingContact] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState('');
 
+  //For edit operation
   const handleEditClick = (contact) => {
     setEditingContact(contact);
     setEditDialogOpen(true);
@@ -39,6 +40,7 @@ function ContactList() {
     setEditDialogOpen(false);
   };
 
+  //for search
   const handleSearch = (keyword) => {
     setSearchKeyword(keyword);
   };
@@ -56,8 +58,7 @@ function ContactList() {
         <SearchContact onSearch={handleSearch} style={{ marginLeft: '8px' }} />
      </Box>
 
-      
-
+      {/* handling search */}
       {filteredContacts.length === 0 ? (
         <Typography variant="body1">No users found.</Typography>
       ) : (

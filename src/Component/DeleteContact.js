@@ -2,6 +2,7 @@ import React, { useContext,useState } from 'react';
 import { ContactContext } from '../Context/ContactContext';
 import DeleteDialog from './DeleteDialog';
 
+//Delete contact operation
 const DeleteContact = ({ contactId, children }) => {
   const { removeContact } = useContext(ContactContext);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
