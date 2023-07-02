@@ -14,7 +14,7 @@ const DeleteDialog = ({ open, onCancel, onConfirm }) => {
         <Button onClick={onCancel} variant ='contained' color="primary">
           Cancel
         </Button>
-        <Button onClick={onConfirm}variant ='contained' color="error">
+        <Button onClick={onConfirm} variant ='contained' color="error">
           Delete
         </Button>
       </DialogActions>

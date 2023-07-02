@@ -49,13 +49,14 @@ function ContactList() {
 
   return (
     <div>
-      <Box marginTop={4} display="flex" justifyContent={'flex-end'}>
-        <Button type="button" variant="contained" color="error" onClick={() => navigate('/')}>
-          Create Contact
+     <Box display="flex" justifyContent="flex-end" alignItems="center" marginBottom={2}>
+        <Button type="button" size="small" variant="contained" color="error" onClick={() => navigate('/')}style={{ marginRight: '8px' }}>
+         Create Contact
         </Button>
-        <SearchContact onSearch={handleSearch} />
+        <SearchContact onSearch={handleSearch} style={{ marginLeft: '8px' }} />
+     </Box>
+
       
-      </Box>
 
       {filteredContacts.length === 0 ? (
         <Typography variant="body1">No users found.</Typography>

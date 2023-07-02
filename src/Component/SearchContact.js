@@ -12,9 +12,12 @@ function SearchContact({ onSearch }) {
   return (
     <TextField
       label="Search by First Name"
+      size='small'
       variant="outlined"
       value={searchKeyword}
       onChange={handleSearchChange}
+      margin ="dense"
+      style={{ marginLeft: '8px' }}
     />
   );
 }
