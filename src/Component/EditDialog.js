@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { ContactContext } from '../Context/ContactContext';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField,Grid } from '@material-ui/core';
 
 //Edit Dialog function
-const EditDialog = ({ contact, onUpdate, onCancel, open }) => {
+const EditDialog = ({ contact, onCancel, open }) => {
   const [editedContact, setEditedContact] = useState(contact);
+  const { updateContact } = useContext(ContactContext);
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (event) => {
@@ -15,7 +17,8 @@ const EditDialog = ({ contact, onUpdate, onCancel, open }) => {
   const handleSubmit = () => {
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length === 0) {
-      onUpdate(editedContact);
+      updateContact(editedContact);
+      
     } else {
       setErrors(validationErrors);
     }
@@ -134,7 +137,7 @@ const EditDialog = ({ contact, onUpdate, onCancel, open }) => {
         Cancel
   </Button>
   <Button onClick={handleSubmit} variant = "contained" color="primary">
-          Save
+          Submit
   </Button>
 </DialogActions>
 </Dialog>
