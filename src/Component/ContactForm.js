@@ -1,24 +1,19 @@
-import React, { useState, useContext} from 'react';
-import {TextField,Button,Grid,Container}from '@material-ui/core';
-import {useNavigate}  from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { TextField, Button, Grid, Container } from '@material-ui/core';
 import { ContactContext } from '../Context/ContactContext';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
-
-//Contact form
-const ContactForm = () => {
-  //use context hook to add the contact
-  const { addContact } = useContext(ContactContext);
-
-  //use navigate button for routing
-  const history = useNavigate();
-
-  //Setting states using useEffect
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+const ContactForm = ({ contact,onCancel}) => {
+  
+  const { addContact, updateContact } = useContext(ContactContext);
+  const [firstName, setFirstName] = useState(contact ? contact.firstName : '');
+  const [lastName, setLastName] = useState(contact ? contact.lastName : '');
+  const [email, setEmail] = useState(contact ? contact.email : '');
+  const [phone, setPhone] = useState(contact ? contact.phone : '');
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+  
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -35,133 +30,106 @@ const ContactForm = () => {
     return regex.test(name);
   };
 
-  
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Validate form fields
-    const newerrors = {};
-    if (!firstName.trim()) {
-      newerrors.firstName = 'First Name is required';
-    }else if (!validateName(firstName)) {
-      newerrors.firstName = 'Invalid first name format';
-    }
-    if (!lastName.trim()) {
-      newerrors.lastName = 'Last Name is required';
-    }else if (!validateName(lastName)) {
-      newerrors.lastName = 'Invalid last name format';
-    }
-    if (!email.trim()) {
-      newerrors.email = 'Email is required';
-    } else if (!validateEmail(email)) {
-      newerrors.email = 'Invalid email format';
-    }
-    if (!phone.trim()) {
-      newerrors.phone = 'Phone Number is required';
-    } else if (!validatePhone(phone)) {
-      newerrors.phone = 'Invalid phone number format';
-    }
-    
-    if (Object.keys(newerrors).length === 0) {
-      // Form is valid, do something with the data
-       const newContact = {
-        //setting unique id to handle delete function
-        id: uuidv4(), // Generate a unique ID
-        firstName,
-        lastName,
-        email,
-        phone,
-       };
-      // Add the new contact
-      addContact(newContact);
-      console.log('Form Submitted');
-      console.log('First Name:', firstName);
-      console.log('Last Name:', lastName);
-      console.log('Email:', email);
-      console.log('Phone Number:', phone);
 
-      // Reset form fields and errors
-      setFirstName('');
-      setLastName('');
-      setEmail('');
-      setPhone('');
-      setErrors({});
-      history('/contactList');
+    const validationErrors = {};
+    if (!validateName(firstName)) {
+      validationErrors.firstName = 'Invalid first name format';
+    }
+    if (!validateName(lastName)) {
+      validationErrors.lastName = 'Invalid last name format';
+    }
+    if (!validateEmail(email)) {
+      validationErrors.email = 'Invalid email format';
+    }
+    if (!validatePhone(phone)) {
+      validationErrors.phone = 'Invalid phone number format';
+    }
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    const updatedContact = {
+      id: contact ? contact.id : uuidv4(),
+      firstName,
+      lastName,
+      email,
+      phone,
+    };
+
+    if (contact) {
+      updateContact(updatedContact);
+      onCancel();
+      navigate('/ContactList')
     } else {
-      // Set the validation errors
-      setErrors(newerrors);
+      addContact(updatedContact);
+      navigate('/ContactList')
     }
     
-  
     
   };
 
   return (
-    
-    <Container maxWidth="sm" spacing ={2} justifycontent = "center">
-      
+    <Container maxWidth="sm" spacing={2} justifycontent="center">
       <form onSubmit={handleSubmit}>
-       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-            fullWidth
-            error={!!errors.firstName}
-            helperText={errors.firstName}
-          />
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="First Name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+              fullWidth
+              error={!!errors.firstName}
+              helperText={errors.firstName}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+              fullWidth
+              error={!!errors.lastName}
+              helperText={errors.lastName}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              fullWidth
+              error={!!errors.email}
+              helperText={errors.email || ' '}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Phone Number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              fullWidth
+              error={!!errors.phone}
+              helperText={errors.phone}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button type="submit" variant="contained" color="primary">
+              {contact?'Update':'Add'}
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6} onSubmit ={handleSubmit}>
-          <TextField
-            label="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-            fullWidth
-            error={!!errors.lastName}
-            helperText={errors.lastName}
-            
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            fullWidth
-            error={!!errors.email}
-            helperText = {errors.email || ' '}
-            
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Phone Number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-            fullWidth
-            error={!!errors.phone}
-            helperText = {errors.phone}
-         />
-        </Grid>
-        <Grid item xs={12}>
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
-        </Grid>
-      </Grid>
-     </form>
+      </form>
     </Container>
-  
-
-);
-
+  );
 };
 
 export default ContactForm;
