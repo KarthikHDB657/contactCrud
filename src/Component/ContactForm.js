@@ -71,7 +71,7 @@ const ContactForm = ({ contact, onCancel }) => {
     if (contact) {
       onCancel()
     } else {
-      window.location.reload();
+      navigate('/contactList')
     }
   };
 
