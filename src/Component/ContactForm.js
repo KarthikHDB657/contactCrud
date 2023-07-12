@@ -4,8 +4,7 @@ import { ContactContext } from '../Context/ContactContext';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 
-const ContactForm = ({ contact,onCancel}) => {
-  
+const ContactForm = ({ contact, onCancel }) => {
   const { addContact, updateContact } = useContext(ContactContext);
   const [firstName, setFirstName] = useState(contact ? contact.firstName : '');
   const [lastName, setLastName] = useState(contact ? contact.lastName : '');
@@ -13,7 +12,6 @@ const ContactForm = ({ contact,onCancel}) => {
   const [phone, setPhone] = useState(contact ? contact.phone : '');
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,14 +60,19 @@ const ContactForm = ({ contact,onCancel}) => {
 
     if (contact) {
       updateContact(updatedContact);
-      onCancel();
-      navigate('/ContactList')
+      navigate('/ContactList');
     } else {
       addContact(updatedContact);
-      navigate('/ContactList')
+      navigate('/ContactList');
     }
-    
-    
+  };
+
+  const handleCancel = () => {
+    if (contact) {
+      onCancel()
+    } else {
+      window.location.reload();
+    }
   };
 
   return (
@@ -123,8 +126,12 @@ const ContactForm = ({ contact,onCancel}) => {
           </Grid>
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary">
-              {contact?'Update':'Add'}
+              {contact ? 'Update' : 'Add'}
             </Button>
+            <Button variant="contained" color="secondary" onClick={handleCancel}>
+             Cancel
+            </Button>
+
           </Grid>
         </Grid>
       </form>
